@@ -17,14 +17,18 @@
         <h2>Software Developer</h2>
         <p>Yonghui is currently studying Software Engineering in Université de Technologie de
         Belfort-Montbéliard for his Master degree(Diplôme d'Ingénieur) in Belfort, France.</p>
-        <a href="#">More Info</a>
+        <a href="#">CONTACT</a>
       </section>
     </div>
     <footer>
       <a href="https://github.com/Pas0412"><img src="./assets/github-fill.svg" alt=""></a><a href="https://www.linkedin.com/in/yonghui-huang-b2706a15b/"><img src="./assets/linkedin-box-fill.svg" alt=""></a>
     </footer>
   </section>
-  <section class="aside-menu"></section>
+  <section class="aside-menu">
+    <img src="./assets/yonghui.jpg" alt="">
+    <a href="./resume.pdf" download="resume.pdf"><span>RESUME</span></a>
+    <a href="https://www.getbreeze.me/"><span>PROJECT EXAMPLE</span></a>
+  </section>
 </template>
 
 <script>
@@ -34,9 +38,21 @@ const ACTIVE = "active";
 export default {
   name: "MyPersonalPage",
   mounted() {
+    const main_structure = document.querySelector(".main-structure");
     const menu_logo = document.querySelector("header .menu .menu-logo");
     menu_logo.addEventListener('click', ()=> {
       menu_logo.classList.toggle(ACTIVE);//if you have => cancel, if not => add
+      main_structure.classList.toggle(ACTIVE);
+    })
+    const contact = document.querySelector(".content .text-description a");
+    contact.addEventListener('mouseenter', ()=> {
+        contact.textContent = "Email: huangyh__123@163.com";
+      })
+    contact.addEventListener('mouseleave', ()=> {
+      contact.textContent = "CONTACT";
+    })
+    contact.addEventListener('click', ()=> {
+      contact.textContent = "Email: huangyh__123@163.com";
     })
   }
 }
@@ -65,6 +81,10 @@ export default {
   --text-description-h2-pad-size: 1.5em;
   --text-description-p-size: 1rem;
   --text-description-p-pad-size: 1rem;
+  --menu-width: 10em;
+  --main-structure-left: 2em;
+  --menu-margin-bottom: 1em;
+  --main-color: lightblue;
 }
 
 * {
@@ -93,14 +113,36 @@ html, body {
 .main-structure,
 .aside-menu {
   font-size: var(--main-desktop-font-size);
+  line-height: 1em;
 }
 
 .main-structure {
+  position: relative;
+  max-width: 1920px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   height: 100vh;
   align-content: center;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 1;
+  transform: perspective(5000px) translateX(0px) translateY(0) translateZ(0) rotateX(0deg) rotateY(0) rotateZ(0deg);
+}
+
+.main-structure.active {
+  width: calc(100% - var(--menu-width) - var(--main-structure-left));
+  height: calc(100vh - 2* var(--main-structure-left));
+  top: var(--main-structure-left);
+  right: var(--menu-width);
+  left: var(--main-structure-left);
+  bottom: var(--main-structure-left);
+  overflow: hidden;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+  transform: perspective(5000px) translateX(0px) translateY(0) translateZ(0) rotateX(0deg) rotateY(20deg) rotateZ(0deg);
 }
 
 .main-structure header,
@@ -233,13 +275,13 @@ html, body {
   margin: 3em 0;
 }
 
+.aside-menu a,
 .content .text-description a {
   display: inline-block;
   text-decoration: none;
   border: 2px solid var(--main-background-color);
   color: var(--main-text-color);
   line-height: 1em;
-  text-transform: uppercase;
   padding: 10px 30px;
   letter-spacing: 2px;
   border-radius: 30px;
@@ -247,8 +289,45 @@ html, body {
   transition: 0.3s;
 }
 
-@media (max-width: 1200px) {
+.aside-menu a:hover,
+.content .text-description a:hover {
+  color: var(--main-text-color);
+  background-color: var(--main-color);
+  letter-spacing: 5px;
+}
 
+.aside-menu {
+  position: absolute;
+  top: 0;
+  right: 10px;
+  bottom: 0;
+  width: var(--menu-width);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.aside-menu a {
+  border-color: var(--main-color);
+  color: var(--main-color);
+  min-width: calc(var(--menu-width) * 2 / 3);
+  text-align: center;
+}
+
+.aside-menu img {
+  border-radius: 50%;
+  width: 6em;
+  height: 7em;
+  margin-bottom: 2em;
+}
+
+.aside-menu a:not(:last-child) {
+  margin-bottom: var(--menu-margin-bottom);
+}
+
+@media (max-width: 1200px) {
+  .aside-menu,
   .main-structure {
     font-size: var(--main-pad-font-size);
   }
