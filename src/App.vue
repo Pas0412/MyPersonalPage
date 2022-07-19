@@ -21,16 +21,26 @@
       </section>
     </div>
     <footer>
-      <a href="#"><img src="./assets/github-fill.svg" alt=""></a><a href="#"><img src="./assets/linkedin-box-fill.svg" alt=""></a>
+      <a href="https://github.com/Pas0412"><img src="./assets/github-fill.svg" alt=""></a><a href="https://www.linkedin.com/in/yonghui-huang-b2706a15b/"><img src="./assets/linkedin-box-fill.svg" alt=""></a>
     </footer>
   </section>
   <section class="aside-menu"></section>
 </template>
 
 <script>
+
+const ACTIVE = "active";
+
 export default {
-  name: "MyPersonalPage"
+  name: "MyPersonalPage",
+  mounted() {
+    const menu_logo = document.querySelector("header .menu .menu-logo");
+    menu_logo.addEventListener('click', ()=> {
+      menu_logo.classList.toggle(ACTIVE);//if you have => cancel, if not => add
+    })
+  }
 }
+
 </script>
 
 <style>
@@ -118,10 +128,29 @@ html, body {
   margin-left: 10px;
 }
 
+.main-structure header .menu .menu-logo:hover {
+  border: 2px solid black;
+  border-radius: 4px;
+  animation: menu_logo ease-in 1s infinite;
+}
+
+.main-structure header .menu .menu-logo.active {
+  background: url("/src/assets/close.svg") no-repeat center;
+  width: var(--header-toggle-width);
+  height: var(--header-toggle-width);
+  background-size: var(--header-toggle-width);
+}
+
 .main-structure header a {
   display: inline-block;
   text-decoration: none;
   color: var(--main-text-color);
+  transition: 0.2s;
+}
+
+.main-structure header a:hover {
+  transform: scale(1.2);
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
 }
 
 .main-structure header,
@@ -145,6 +174,11 @@ html, body {
 .main-structure footer a img {
   width: var(--footer-icon-width);
   filter: invert(1);
+  transition: 0.5s;
+}
+
+.main-structure footer a img:hover {
+  transform: translateY(-5px);
 }
 
 .main-structure .content video,
@@ -250,6 +284,16 @@ html, body {
     line-height: 1.5em;
     max-width: 500px;
     min-width: 300px;
+  }
+}
+
+@keyframes menu_logo {
+  from, to{
+    filter: invert(1);
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
   }
 }
 </style>
