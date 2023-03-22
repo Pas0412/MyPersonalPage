@@ -6,6 +6,7 @@
       </a>
       <div class="menu">
         <img src="./assets/logo.png" alt="">
+        <span>click here -></span>
         <div class="menu-logo"></div>
       </div>
     </header>
@@ -27,7 +28,7 @@
   <section class="aside-menu">
     <img src="./assets/yonghui.jpg" alt="">
     <a href="./resume.pdf" download="resume.pdf"><span>RESUME</span></a>
-    <a href="https://www.getbreeze.me/"><span>PROJECT EXAMPLE</span></a>
+    <a href="https://www.getbreeze.me/"><span>BREEZE</span></a>
   </section>
 </template>
 
@@ -64,7 +65,7 @@ export default {
 :root {
   --main-desktop-font-size: 30px;
   --main-pad-font-size: calc(var(--main-desktop-font-size) * 4.8 / 6);
-  --header-toggle-width: 30px;
+  --header-toggle-width: 50px;
   --header-pad-toggle-width: calc(var(--header-toggle-width) * 5 / 6);
   --main-background-color: #fff;
   --main-text-color: #fff;
@@ -130,6 +131,7 @@ html, body {
   bottom: 0;
   z-index: 1;
   transform: perspective(5000px) translateX(0px) translateY(0) translateZ(0) rotateX(0deg) rotateY(0) rotateZ(0deg);
+  transition: 1s;
 }
 
 .main-structure.active {
@@ -142,7 +144,7 @@ html, body {
   overflow: hidden;
   border-radius: 10px;
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
-  transform: perspective(5000px) translateX(0px) translateY(0) translateZ(0) rotateX(0deg) rotateY(20deg) rotateZ(0deg);
+  transform: perspective(5000px) translateX(0px) translateY(0) translateZ(0) rotateX(0deg) rotateY(35deg) rotateZ(0deg);
 }
 
 .main-structure header,
@@ -155,6 +157,7 @@ html, body {
 .main-structure header .menu {
   display: flex;
   flex-direction: row;
+  align-items: center;
 }
 
 .main-structure header .menu img {
@@ -162,22 +165,23 @@ html, body {
 }
 
 .main-structure header .menu .menu-logo {
-  background: url("/src/assets/menu.svg") no-repeat center;
+  background: url("/src/assets/copy.svg") no-repeat center;
   width: var(--header-toggle-width);
   height: var(--header-toggle-width);
   background-size: var(--header-toggle-width);
-  filter: invert(1);
+  /* filter: invert(1); */
   margin-left: 10px;
 }
 
 .main-structure header .menu .menu-logo:hover {
-  border: 2px solid black;
+  border: 2px solid lightblue;
   border-radius: 4px;
   animation: menu_logo ease-in 1s infinite;
 }
 
 .main-structure header .menu .menu-logo.active {
   background: url("/src/assets/close.svg") no-repeat center;
+  filter: invert(1);
   width: var(--header-toggle-width);
   height: var(--header-toggle-width);
   background-size: var(--header-toggle-width);
@@ -299,7 +303,7 @@ html, body {
 .aside-menu {
   position: absolute;
   top: 0;
-  right: 10px;
+  right: 20px;
   bottom: 0;
   width: var(--menu-width);
   display: flex;
@@ -320,6 +324,10 @@ html, body {
   width: 6em;
   height: 7em;
   margin-bottom: 2em;
+  opacity: 0;
+  filter: drop-shadow(grey 0px 0px 8px);
+  animation: slideLeft 1s ease forwards, changeImg 4s ease-in-out infinite;
+  animation-delay: 2s, 3s;
 }
 
 .aside-menu a:not(:last-child) {
@@ -368,11 +376,36 @@ html, body {
 
 @keyframes menu_logo {
   from, to{
-    filter: invert(1);
+    /* filter: invert(1); */
     transform: scale(1);
   }
   50% {
     transform: scale(1.5);
+  }
+}
+
+@keyframes slideLeft {
+  0% {
+    transform: scale(0);
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes changeImg {
+  0% {
+    transform: translateY(0px);
+  }
+  
+  50% {
+    transform: translateY(20px);
+  }
+
+  100% {
+    transform: translateY(0px);
   }
 }
 </style>
