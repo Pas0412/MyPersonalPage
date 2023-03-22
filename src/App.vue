@@ -91,7 +91,6 @@ export default {
 * {
   box-sizing: border-box;
   -webkit-user-drag: none;
-
 }
 
 html, body {
@@ -101,6 +100,7 @@ html, body {
   font-family: 'Finlandica', sans-serif;
   background-color: var(--main-background-color);
   color: var(--main-text-color);
+  background-image: url("./assets/back.jpg");
 }
 
 .main-structure,
