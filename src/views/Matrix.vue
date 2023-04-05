@@ -1,5 +1,5 @@
 <template>
-    <div class="container">
+    <div class="matrix-container">
         <canvas ref="canvasRef"></canvas>
     </div>
 </template>
@@ -62,10 +62,10 @@ export default {
 };
 
 </script>
-<style scoped>
+<style>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono&display=swap');
 
-.container {
+.matrix-container {
     background-color: #000;
     height: 100vh;
     width: 100vw;
