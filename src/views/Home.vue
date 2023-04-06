@@ -27,7 +27,7 @@
     </section>
     <section class="aside-menu">
       <img src="../assets/yonghui.jpg" alt="">
-      <a href="/resume.pdf" download="resume.pdf"><span>RESUME</span></a>
+      <a href="/resume.pdf"><span>RESUME</span></a>
       <router-link to="/matrix" class="matrix"><span>MATRIX</span></router-link>
     </section>
   </template>
