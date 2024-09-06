@@ -2,7 +2,7 @@
     <section class="main-structure">
       <header>
         <a href="#">
-          <div class="logo">Personal Page</div>
+          <div class="logo" @click="onclick">Personal Page</div>
         </a>
         <div class="menu">
           <img src="../assets/logo.png" alt="">
@@ -16,8 +16,8 @@
         <section class="text-description">
           <h1>Yonghui HUANG</h1>
           <h2>Software Developer</h2>
-          <p>Yonghui is currently studying Software Engineering in Université de Technologie de
-          Belfort-Montbéliard for his Master degree(Diplôme d'Ingénieur) in Belfort, France.</p>
+          <p>Yonghui has graduated from Université de Technologie de Belfort-Montbéliard 
+            for his Master degree(Diplôme d'Ingénieur) of Software Engineering in in Belfort, France.</p>
           <a href="#">CONTACT</a>
         </section>
       </div>
@@ -26,7 +26,7 @@
       </footer>
     </section>
     <section class="aside-menu">
-      <img src="../assets/yonghui.jpg" alt="">
+      <img src="../assets/yonghui.png" alt="">
       <a href="https://pas0412.github.io/MyPersonalPage/static/resume.pdf" download="简历-黄永辉.pdf"><span>RESUME</span></a>
       <router-link to="/matrix" class="matrix"><span>MATRIX</span></router-link>
     </section>
@@ -56,6 +56,11 @@
       contact.addEventListener('click', ()=> {
         contact.textContent = "Email: huangyh__123@163.com";
       })
+    },
+    methods: {
+      onclick(){
+        window.location.reload();
+      }
     }
   }
   
@@ -100,10 +105,10 @@
     all: unset;
     width: 100vw;
     min-height: 100vh;
-    font-family: 'Finlandica', sans-serif;
+    font-family: 'Finlandica', sans-serif !important;
     background-color: var(--main-background-color);
     color: var(--main-text-color);
-    background-image: url("../assets/back.jpg");
+    background-image: url("../assets/back.jpg") !important;
   }
   
   .main-structure,

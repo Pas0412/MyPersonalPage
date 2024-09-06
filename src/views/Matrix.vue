@@ -31,7 +31,7 @@ export default {
       const charIndex = new Array(columnCount).fill(0);
 
       function getRandomChar() {
-        const str = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*/`¥ˆABCDEFGHIJKLMNOPQRSTUVWXYZバイオリンヴァイオリンチェロアメテレビ';
+        const str = '0123456789abcdefghijklmnopqrstuvwxyz!@#$%^&*/`¥';
         return str[Math.floor(Math.random() * str.length)];
       }
       function draw(){
