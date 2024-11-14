@@ -17,7 +17,7 @@
           <h1>Yonghui HUANG</h1>
           <h2>Software Developer</h2>
           <p>Yonghui has graduated from Université de Technologie de Belfort-Montbéliard 
-            for his Master degree(Diplôme d'Ingénieur) of Software Engineering in in Belfort, France.</p>
+            for his Master degree(Diplôme d'Ingénieur) of Software Engineering in Belfort, France.</p>
           <a href="#">CONTACT</a>
         </section>
       </div>
