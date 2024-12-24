@@ -1,7 +1,4 @@
 import { createRouter, createWebHashHistory } from 'vue-router'
-import Home from '../views/Home.vue'
-import Matrix from '../views/Matrix.vue'
-import ExpandFont from '../views/ExpandFont.vue'
 
 const router = createRouter({
     history: createWebHashHistory(),
@@ -13,17 +10,22 @@ const router = createRouter({
           {
             path: '/home',
             name: 'home',
-            component: Home,
+            component: () => import('../views/Home.vue')
           },
           {
             path: '/matrix',
             name: 'matrix',
-            component: Matrix
+            component: () => import('../views/Matrix.vue')
           },
           {
             path: '/expandfont',
             name: 'expandfont',
-            component: ExpandFont
+            component: () => import('../views/ExpandFont.vue')
+          },
+          {
+            path: '/navigate',
+            name: 'navigate',
+            component: () => import('../views/NavigatePage.vue')
           }
     ]
 })
