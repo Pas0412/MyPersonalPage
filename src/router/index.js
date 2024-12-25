@@ -26,6 +26,11 @@ const router = createRouter({
             path: '/navigate',
             name: 'navigate',
             component: () => import('../views/NavigatePage.vue')
+          },
+          {
+            path: '/chinamap',
+            name: 'chinamap',
+            component: () => import('../views/ChinaMap.vue')
           }
     ]
 })
