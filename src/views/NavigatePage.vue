@@ -29,9 +29,16 @@ const gotoHome = () => {
 };
 const gotoDashBoard = () => {
 //   router.push("/dashboard");
+  router.push("/chinamap");
 };
 </script>
 <style scoped>
+html, body {
+    margin: 0;
+    padding: 0;
+    height: auto; /* 设置为自动高度，避免出现不合理的固定高度赋值 */
+    width: 100%;
+}
 
 .main-container {
   display: flex;
@@ -56,7 +63,6 @@ const gotoDashBoard = () => {
 }
 
 .main-title:hover {
-  transform: scale(1.05);
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
   cursor: pointer;
 }

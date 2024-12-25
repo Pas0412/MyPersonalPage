@@ -104,7 +104,7 @@
   html, body {
     all: unset;
     width: 100vw;
-    min-height: 100vh;
+    height: auto;
     font-family: 'Finlandica', sans-serif !important;
     background-color: var(--main-background-color);
     color: var(--main-text-color);

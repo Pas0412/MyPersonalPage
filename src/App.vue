@@ -16,6 +16,6 @@
 html, body {
   all: unset;
   width: 100vh;
-  height: 100vw;
+  /* max-height: 100vw; */
 }
 </style>
