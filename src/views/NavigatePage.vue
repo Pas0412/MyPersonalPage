@@ -1,24 +1,18 @@
 <template>
-  <div class="main-container">
-    <div class="main-title">Personal Page</div>
+  <div>
+    <div class="main-content">
+      <div class="name-wrapper">
+        <span class="first-name">Yonghui</span>
+        <span class="last-name">HUANG</span>
+      </div>
+      <div class="job-title">Software Engineer</div>
+    </div>
     <div class="button-bar">
-      <button class="navigate-button" @click="gotoHome">进入首页</button>
-      <button class="navigate-button" @click="gotoDashBoard">跳过首页进入面板</button>
+      <img class="side-button left-button" @click="gotoHome" src="../assets/home.png" alt="home"/>
+      <img class="center-button" @click="gotoDashBoard" src="../assets/enter.png" alt="enter"/>
+      <img class="side-button right-button" src="../assets/app.png" alt="app"/>
     </div>
-    <div class="description">
-      <p>
-        欢迎来到我的个人主页！这里是一个展示我的作品和项目的地方。
-      </p>
-      <p>
-        在这里，你可以浏览我的作品，了解我的技能和经验。
-      </p>
-      <p>
-        如果你对我的作品感兴趣，或者想了解更多关于我的信息，请随时联系我。
-      </p>
-      <p>
-        请注意：首页是一个可以跳过的页面，由于视频背景资源加载缓慢，如果你想直接进入面板，请点击“跳过首页进入面板”按钮。
-      </p>
-    </div>
+    <div class="footer-divider"></div>
   </div>
 </template>
 <script setup>
@@ -33,76 +27,106 @@ const gotoDashBoard = () => {
 };
 </script>
 <style scoped>
-html, body {
-    margin: 0;
-    padding: 0;
-    height: auto; /* 设置为自动高度，避免出现不合理的固定高度赋值 */
-    width: 100%;
-}
-
-.main-container {
+.main-content {
+  margin: 0;
+  padding: 0;
+  /* 设置背景图片 */
+  background-image: url('../assets/bigsur.jpg');
+  background-size: cover;
+  background-position: center;
+  /* 设置半透明蒙版 */
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  height: 100vh;
-  width: 100vw;
-  text-align: center;
-  background-image: url("../assets/back.jpg") !important;
-  font-family: "Finlandica", sans-serif !important;
+  align-items: center;
+  min-height: 100vh;
+  min-width: 100vw;
 }
 
-.main-title {
-  font-size: 5rem;
-  display: inline-block;
-  text-decoration: none;
+.main-content::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明，可调整透明度值 */
+  z-index: 0;
+}
+
+.name-wrapper {
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.first-name {
+  color: #808080;
+  font-family: "SimHei";
+  font-size: 72px;
+  margin-right: 5px;
+  z-index: 2;
+}
+
+.last-name {
   color: white;
-  transition: 0.2s;
-  width: 100%;
-  translate: 0 -5rem;
+  font-family: "SimHei";
+  font-size: 72px;
+  z-index: 2;
 }
 
-.main-title:hover {
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  cursor: pointer;
+.job-title {
+  margin-top: 10px;
+  font-family: "SimHei";
+  color: #ccc;
+  z-index: 2;
+  user-select: none;
 }
 
 .button-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 0;
+  right: 0;
   display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
-  gap: 2rem;
-}
-
-.button-bar .navigate-button {
-  margin: 0 10px;
-  padding: 10px 20px;
-  font-size: 16px;
   background-color: transparent;
-  color: white;
-  border: 2px solid white;
-  border-radius: 10px;
-  cursor: pointer;
-  width: 20rem;
-  transition: 0.2s;
-  font-family: "Finlandica", sans-serif !important;
+  z-index: 1;
 }
 
-.button-bar .navigate-button:hover {
-  transform: scale(1.05);
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+.side-button,
+.center-button {
+  /* background-color: transparent; */
+  border: none;
   cursor: pointer;
-  background-color: aliceblue;
-  color: black;
+  padding: 10px;
+  transition: transform 0.3s ease;
 }
 
-.description {
-  font-size: 0.8rem;
-  margin-top: 20px;
-  color: white;
-  width: 80%;
-  text-align: center;
+.side-button {
+  height: 2rem;
+}
+
+.center-button {
+  height: 3rem;
+}
+
+.side-button:hover,
+.center-button:hover {
+  transform: translateY(-5px);
+}
+
+.footer-divider {
+  position: fixed;
+  bottom: 1rem;
+  left: 0;
+  right: 0;
+  background-color: white;
+  width: 10%;
+  margin: auto;
+  height: 0.2rem;
+  border-radius: 5px;
 }
 </style>
