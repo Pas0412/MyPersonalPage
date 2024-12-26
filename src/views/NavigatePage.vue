@@ -2,7 +2,7 @@
   <div>
     <div class="main-content">
       <div class="name-wrapper">
-        <span class="first-name">Yonghui</span>
+        <span class="first-name">YONGHUI</span>
         <span class="last-name">HUANG</span>
       </div>
       <div class="job-title">Software Engineer</div>
@@ -23,7 +23,7 @@ const gotoHome = () => {
 };
 const gotoDashBoard = () => {
 //   router.push("/dashboard");
-  router.push("/chinamap");
+  router.push("/dashboard");
 };
 </script>
 <style scoped>
@@ -51,7 +51,7 @@ const gotoDashBoard = () => {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.5); /* 黑色半透明，可调整透明度值 */
+  background-color: rgba(0, 0, 0, 0.7); /* 黑色半透明，可调整透明度值 */
   z-index: 0;
 }
 
@@ -59,19 +59,20 @@ const gotoDashBoard = () => {
   display: flex;
   align-items: center;
   user-select: none;
+  margin-left: -40px;
 }
 
 .first-name {
   color: #808080;
-  font-family: "SimHei";
+  font-family: "San Francisco";
   font-size: 72px;
-  margin-right: 5px;
+  margin-right: 40px;
   z-index: 2;
 }
 
 .last-name {
   color: white;
-  font-family: "SimHei";
+  font-family: "San Francisco";
   font-size: 72px;
   z-index: 2;
 }

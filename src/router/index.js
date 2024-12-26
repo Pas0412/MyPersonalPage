@@ -28,9 +28,9 @@ const router = createRouter({
             component: () => import('../views/NavigatePage.vue')
           },
           {
-            path: '/chinamap',
-            name: 'chinamap',
-            component: () => import('../views/ChinaMap.vue')
+            path: '/dashboard',
+            name: 'dashboard',
+            component: () => import('../views/DashboardPage.vue')
           }
     ]
 })
