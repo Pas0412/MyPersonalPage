@@ -1,15 +1,33 @@
 <template>
   <div class="card-list">
-    <div class="card" v-for="(card, index) in cards" :key="index">
-      卡片 {{ index + 1 }}
+    <div class="card" v-for="(card, index) in cards" :key="index" @click="onClick(card.url)">
+      {{ card.title }}
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import router from '@/router';
 
-const cards = ref(new Array(10).fill(null)); // 模拟10个卡片
+
+const cards = [
+    {
+      title: "Matrix",
+      url: "/matrix",
+    },
+    {
+      title: "ExpandFont",
+      url: "/expandfont",
+    },
+    {
+      title: "ChinaMap",
+      url: "/chinamap",
+    },
+];
+
+const onClick = (url) => {
+  router.push(url);
+};
 </script>
 
 <style scoped>
