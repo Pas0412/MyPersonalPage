@@ -3,8 +3,7 @@
     <router-view></router-view>
   </div>
 </template>
-
-<script>
+<script setup>
 // import { RouterView } from 'vue-router'
 // export default{
 //   components: {
@@ -13,7 +12,8 @@
 // }
 </script>
 <style>
-html, body {
+html,
+body {
   all: unset;
   width: 100vh;
   /* max-height: 100vw; */

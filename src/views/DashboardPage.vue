@@ -22,15 +22,6 @@
             />huangyh__123@163.com
           </div>
         </div>
-        <div
-          class="nav-option"
-          v-for="(option, index) in navOptions"
-          :key="index"
-          @mouseenter="handleMouseEnter(index)"
-          @mouseleave="handleMouseLeave(index)"
-        >
-          {{ option }}
-        </div>
       </div>
       <div class="panel-content">
         <div class="intro-wrapper">
@@ -70,29 +61,71 @@
                 <img src="../assets/resume.png" alt="resume"
               /></a>
             </div>
+            <div class="button">
+              <a href="https://blog.csdn.net/weixin_48328458?type=blog">
+                <img src="../assets/csdn.png" alt="blog"
+              /></a>
+            </div>
           </div>
         </div>
-        <div class="card-title">
-          <img src="../assets/link.png" alt="link" />Interesting Front-end
-          implementations
-        </div>
-        <CardList />
       </div>
     </div>
     <div class="divider"></div>
-    <TimeLine />
-    <div class="map-title">WHERE I HAVE BEEN</div>
-    <TrackInChina />
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="divider"></div>
+    <div class="card-panel">
+      <div class="card-title" @click="toggleShow">
+        <img src="../assets/link.png" alt="link" />Interesting Front-end
+        implementations
+        <img src="../assets/down-arrow.png" alt="down-arrow" :class="{'rotate': !isShow, 'default-arrow': true}" />
+      </div>
+      <transition name="expand-collapse" appear @after-leave="handleAfterLeave">
+        <CardList v-if="isShow" />
+      </transition>
+    </div>
+    <div class="tab-bar">
+      <div class="card-title">
+        <img src="../assets/link.png" alt="link" />Tab Bar
+      </div>
+      <div class="nav-bar">
+        <div
+          class="nav-option"
+          v-for="(option, index) in navOptions"
+          :key="index"
+          @mouseenter="handleMouseEnter(index)"
+          @mouseleave="handleMouseLeave(index)"
+          @click="handleClick(index)"
+        >
+          {{ option.title }}
+        </div>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <router-view></router-view>
+    <Footer />
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import CardList from "@/components/CardList.vue";
-import TimeLine from "@/components/TimeLine.vue";
-import TrackInChina from "@/components/TrackInChina.vue";
+import Footer from "@/components/Footer.vue";
+import { useRouter } from 'vue-router';
+const router = useRouter();
 
-const navOptions = ref(["待添加", "待添加", "待添加", "待添加"]);
+const navOptions = ref([
+  { title: "学习区", name: "study" },
+  { title: "实用收藏", name: "collection" },
+  { title: "朋友圈", name: "friendscircle" },
+  { title: "关于我", name: "aboutme" }
+]);
 const hoverIndex = ref(-1);
 
 const handleMouseEnter = (index) => {
@@ -101,6 +134,27 @@ const handleMouseEnter = (index) => {
 
 const handleMouseLeave = () => {
   hoverIndex.value = -1;
+};
+
+const handleClick = (index) => {
+  const option = navOptions.value[index];
+  router.push({ name: option.name });
+};
+
+// 控制下方CardList组件是否显示的响应式变量
+const isShow = ref(true);
+
+// 切换显示隐藏的函数
+const toggleShow = () => {
+  isShow.value = !isShow.value;
+};
+
+// 在组件离开过渡动画完成后执行的回调函数，确保DOM及时更新移除元素
+const handleAfterLeave = () => {
+  requestAnimationFrame(() => {
+    // 强制更新DOM，确保元素彻底移除，避免延迟显示问题
+    document.body.offsetHeight;
+  });
 };
 </script>
 
@@ -115,6 +169,7 @@ const handleMouseLeave = () => {
   width: 100vw;
   min-height: 100vh;
   position: absolute;
+  z-index: -2;
 }
 
 .dashboard-mask {
@@ -124,6 +179,7 @@ const handleMouseLeave = () => {
   position: absolute;
   top: 0;
   left: 0;
+  z-index: -1;
 }
 
 .dashboard-panel {
@@ -189,6 +245,8 @@ const handleMouseLeave = () => {
   opacity: 1;
   font-size: 0.7rem;
   font-family: "San Francisco";
+  overflow: hidden;
+  text-overflow: clip;
 }
 
 .side-bar .user-info div .user-info-icon {
@@ -197,7 +255,19 @@ const handleMouseLeave = () => {
   margin-right: 0.5rem;
 }
 
-.side-bar .nav-option {
+.tab-bar {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.nav-bar {
+  display: flex;
+  flex-direction: row;
+  margin: 0 auto;
+}
+
+.nav-option {
+  width: 100%;
   margin: 1rem;
   padding: 1rem;
   border-radius: 10px;
@@ -209,9 +279,10 @@ const handleMouseLeave = () => {
   font-family: "San Francisco";
   transition: all 0.3s ease;
   background-color: rgba(128, 128, 128, 0.4);
+  color: white;
 }
 
-.side-bar .nav-option:hover {
+.nav-option:hover {
   background: linear-gradient(
     to bottom,
     rgba(130, 130, 130, 0.4),
@@ -276,20 +347,63 @@ const handleMouseLeave = () => {
   transform: translateY(-3px);
 }
 
-.panel-content .card-title {
+.card-panel {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.card-title {
   color: white;
   font-size: 24px;
-  margin: 1rem 0;
+  padding: 0.4rem 0.3rem;
   z-index: 2;
   position: relative;
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
+  border-radius: 0.5rem;
 }
 
-.panel-content .card-title img {
+.card-title:hover {
+  background-color: rgba(128, 128, 128, 0.4);
+}
+
+.card-title img {
   width: 1.5rem;
   margin-right: 0.5rem;
+}
+
+.rotate {
+  margin-left: 0.5rem;
+  transform: rotate(-90deg);
+  transition: transform 0.3s ease;
+}
+
+.default-arrow {
+  margin-left: 0.5rem;
+  transition: transform 0.3s ease;
+}
+
+.CardList {
+  overflow: hidden;
+}
+
+.expand-collapse-enter-active{
+  transition: opacity 0.5s cubic-bezier(0, 0, 0.2, 1);
+}
+.expand-collapse-leave-active {
+  transition: opacity 0.2s cubic-bezier(0, 0, 0.2, 1);
+}
+
+.expand-collapse-enter-from {
+  max-height: 0;
+  opacity: 0;
+}
+
+.expand-collapse-leave-to {
+  max-height: 0;
+  opacity: 0;
 }
 
 .divider {
@@ -299,14 +413,4 @@ const handleMouseLeave = () => {
   margin: 20px 0;
 }
 
-.map-title {
-  color: #add8e6;
-  font-size: 36px;
-  margin: 5rem 0 2rem 0;
-  z-index: 2;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
 </style>
