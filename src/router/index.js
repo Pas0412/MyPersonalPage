@@ -43,8 +43,13 @@ const router = createRouter({
         {
           path: "/aboutme",
           name: "aboutme",
-          component: () => import("../views/AboutMe.vue"),
+          component: () => import("../views/SidePage/AboutMe.vue"),
         },
+        {
+          path: "/collections",
+          name: "collections",
+          component: () => import("../views/SidePage/Collections.vue"),
+        }
       ]
     },
     {

@@ -78,21 +78,49 @@
         <div class="times">+{{ times }}</div>
       </div>
       <div class="n-grid">
-        <div class="n-gi">
-          学习区
-          <div class="n-statistic">125 篇</div>
+        <div class="n-gi" @click="toStudy">
+          <n-statistic label="学习区" tabular-nums>
+            <n-number-animation
+              ref="numberAnimationInstRef"
+              :from="0"
+              :to="125"
+              class="n-statistic-value"
+            />
+            <template #suffix> 篇 </template>
+          </n-statistic>
         </div>
-        <div class="n-gi">
-          实用收藏
-          <div class="n-statistic">22 个</div>
+        <div class="n-gi" @click="toCollection">
+          <n-statistic label="实用收藏" tabular-nums>
+            <n-number-animation
+              ref="numberAnimationInstRef"
+              :from="0"
+              :to="22"
+              class="n-statistic-value"
+            />
+            <template #suffix> 个 </template>
+          </n-statistic>
         </div>
-        <div class="n-gi">
-          朋友
-          <div class="n-statistic">36 位</div>
+        <div class="n-gi" @click="toBeFriend">
+          <n-statistic label="朋友" tabular-nums>
+            <n-number-animation
+              ref="numberAnimationInstRef"
+              :from="0"
+              :to="35"
+              class="n-statistic-value"
+            />
+            <template #suffix> 位 </template>
+          </n-statistic>
         </div>
-        <div class="n-gi">
-          朋友圈帖子
-          <div class="n-statistic">83 篇</div>
+        <div class="n-gi" @click="toCircle">
+          <n-statistic label="朋友圈帖子" tabular-nums>
+            <n-number-animation
+              ref="numberAnimationInstRef"
+              :from="0"
+              :to="99"
+              class="n-statistic-value"
+            />
+            <template #suffix> 篇 </template>
+          </n-statistic>
         </div>
       </div>
       <n-divider title-placement="left"> 截止到 {{ today }} </n-divider>
@@ -129,11 +157,11 @@
       </div>
     </div> -->
     <div class="divider"></div>
-    <div class="card-panel">
+    <!-- <div class="card-panel">
       <div class="card-title">
         <img src="../assets/link.png" alt="link" />关于我
       </div>
-    </div>
+    </div> -->
     <router-view></router-view>
     <Footer />
     <n-back-top :right="100" />
@@ -145,7 +173,7 @@ import { ref, onMounted } from "vue";
 import CardList from "@/components/CardList.vue";
 import Footer from "@/components/Footer.vue";
 import { useRouter } from "vue-router";
-import { NBackTop, NDivider } from "naive-ui";
+import { NBackTop, NDivider, NStatistic, NNumberAnimation } from "naive-ui";
 const router = useRouter();
 const hoverIndex = ref(-1);
 const times = ref(0);
@@ -153,17 +181,20 @@ const times = ref(0);
 const callForUpdate = () => {
   times.value++;
   // 获取.times类名的元素，触发动画效果（重新添加动画名来触发动画）
-  const element = document.querySelector('.times');
-  const anim = element.animate([
-    { transform: 'translate(-0.5rem, 0.1rem)', opacity: 0 },
-    { transform: 'translate(0, 0)', opacity: 1 }
-], {
-    duration: 500, // 动画时长，单位毫秒
-    easing: 'ease-in',
-    fill: 'forwards'
-});
-// 播放动画
-anim.play();
+  const element = document.querySelector(".times");
+  const anim = element.animate(
+    [
+      { transform: "translate(-0.5rem, 0.1rem)", opacity: 0 },
+      { transform: "translate(0, 0)", opacity: 1 },
+    ],
+    {
+      duration: 500, // 动画时长，单位毫秒
+      easing: "ease-in",
+      fill: "forwards",
+    }
+  );
+  // 播放动画
+  anim.play();
 };
 
 const navOptions = ref([
@@ -182,6 +213,22 @@ onMounted(() => {
   const formattedDate = `${year}年${month}月${day}日`;
   today.value = formattedDate;
 });
+
+const toStudy = () => {
+  router.push({ name: "study" });
+};
+
+const toCollection = () => {
+  router.push({ name: "collections" });
+};
+
+const toBeFriend = () => {
+  router.push({ name: "friend" });
+};
+
+const toCircle = () => {
+  router.push({ name: "friendscircle" });
+};
 
 const handleMouseEnter = (index) => {
   hoverIndex.value = index;
@@ -501,6 +548,12 @@ const handleAfterLeave = () => {
   font-size: 1rem;
   padding: 1rem;
   border-radius: 0.5rem;
+  color: white;
+}
+
+:deep(.n-statistic__label) {
+  font-size: 1rem;
+  color: white;
 }
 
 .n-gi:hover {
@@ -513,8 +566,14 @@ const handleAfterLeave = () => {
   cursor: pointer;
 }
 
-.n-statistic {
+:deep(.n-statistic .n-statistic-value .n-statistic-value__content) {
   font-size: 2rem;
+  color: white;
+}
+
+:deep(.n-statistic .n-statistic-value .n-statistic-value__suffix) {
+  font-size: 1rem;
+  color: white;
 }
 
 .n-title {
@@ -564,15 +623,17 @@ const handleAfterLeave = () => {
   animation: anim 1s ease-in;
 }
 
-@keyframes anim
-
-  {
-
-     0%   { transform:translate(-0.5rem, 0.2rem); opacity:0; }
-
-    100%  { transform:translate(0, 0); opacity:1;}
-
+@keyframes anim {
+  0% {
+    transform: translate(-0.5rem, 0.2rem);
+    opacity: 0;
   }
+
+  100% {
+    transform: translate(0, 0);
+    opacity: 1;
+  }
+}
 
 .n-divider {
   color: white;
