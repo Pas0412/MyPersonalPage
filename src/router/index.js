@@ -36,6 +36,7 @@ const router = createRouter({
     },
     {
       path: "/dashboard",
+      redirect: "/aboutme",
       name: "dashboard",
       component: () => import("../views/DashboardPage.vue"),
       children: [

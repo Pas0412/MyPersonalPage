@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-      <h3 class="text-center">Experience Timeline</h3>
+      <h1 class="text-center">Experience Timeline</h1>
       <div class="experience">
         <!-- 使用v-for遍历workExperiences数组，渲染每个工作经历对应的item -->
         <div class="item" v-for="(experience, index) in workExperiences" :key="index">
@@ -149,7 +149,7 @@ const workExperiences = ref([
   justify-content: center;
 }
 
-h3 {
+h1 {
   margin: 20px 0;
   color: #add8e6;
   z-index: 2;

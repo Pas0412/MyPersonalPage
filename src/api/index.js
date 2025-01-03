@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // 基础的后端接口 URL，根据实际情况调整
-const baseURL = 'http://47.122.59.39:8081';
+const baseURL = 'http://localhost:8081';
 
 // 创建 axios 实例，方便配置公共的请求头、拦截器等
 const instance = axios.create({

@@ -70,27 +70,48 @@
         </div>
       </div>
     </div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="divider"></div>
-    <div class="card-panel">
+    <div class="n-page-header">
+      <div class="n-title">
+        <img src="../assets/link.png" alt="link" />
+        <span>已收纳</span>
+        <div class="n-space" @click="callForUpdate">催更</div>
+        <div class="times">+{{ times }}</div>
+      </div>
+      <div class="n-grid">
+        <div class="n-gi">
+          学习区
+          <div class="n-statistic">125 篇</div>
+        </div>
+        <div class="n-gi">
+          实用收藏
+          <div class="n-statistic">22 个</div>
+        </div>
+        <div class="n-gi">
+          朋友
+          <div class="n-statistic">36 位</div>
+        </div>
+        <div class="n-gi">
+          朋友圈帖子
+          <div class="n-statistic">83 篇</div>
+        </div>
+      </div>
+      <n-divider title-placement="left"> 截止到 {{ today }} </n-divider>
+    </div>
+    <!-- <div class="card-panel">
       <div class="card-title" @click="toggleShow">
         <img src="../assets/link.png" alt="link" />Interesting Front-end
         implementations
-        <img src="../assets/down-arrow.png" alt="down-arrow" :class="{'rotate': !isShow, 'default-arrow': true}" />
+        <img
+          src="../assets/down-arrow.png"
+          alt="down-arrow"
+          :class="{ rotate: !isShow, 'default-arrow': true }"
+        />
       </div>
       <transition name="expand-collapse" appear @after-leave="handleAfterLeave">
         <CardList v-if="isShow" />
       </transition>
-    </div>
-    <div class="tab-bar">
+    </div> -->
+    <!-- <div class="tab-bar">
       <div class="card-title">
         <img src="../assets/link.png" alt="link" />Tab Bar
       </div>
@@ -106,27 +127,61 @@
           {{ option.title }}
         </div>
       </div>
-    </div>
+    </div> -->
     <div class="divider"></div>
+    <div class="card-panel">
+      <div class="card-title">
+        <img src="../assets/link.png" alt="link" />关于我
+      </div>
+    </div>
     <router-view></router-view>
     <Footer />
+    <n-back-top :right="100" />
   </div>
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 import CardList from "@/components/CardList.vue";
 import Footer from "@/components/Footer.vue";
-import { useRouter } from 'vue-router';
+import { useRouter } from "vue-router";
+import { NBackTop, NDivider } from "naive-ui";
 const router = useRouter();
+const hoverIndex = ref(-1);
+const times = ref(0);
+
+const callForUpdate = () => {
+  times.value++;
+  // 获取.times类名的元素，触发动画效果（重新添加动画名来触发动画）
+  const element = document.querySelector('.times');
+  const anim = element.animate([
+    { transform: 'translate(-0.5rem, 0.1rem)', opacity: 0 },
+    { transform: 'translate(0, 0)', opacity: 1 }
+], {
+    duration: 500, // 动画时长，单位毫秒
+    easing: 'ease-in',
+    fill: 'forwards'
+});
+// 播放动画
+anim.play();
+};
 
 const navOptions = ref([
   { title: "学习区", name: "study" },
   { title: "实用收藏", name: "collection" },
   { title: "朋友圈", name: "friendscircle" },
-  { title: "关于我", name: "aboutme" }
+  { title: "关于我", name: "aboutme" },
 ]);
-const hoverIndex = ref(-1);
+
+const today = ref(null);
+onMounted(() => {
+  const currentDate = new Date();
+  const year = currentDate.getFullYear();
+  const month = (currentDate.getMonth() + 1).toString().padStart(2, "0");
+  const day = currentDate.getDate().toString().padStart(2, "0");
+  const formattedDate = `${year}年${month}月${day}日`;
+  today.value = formattedDate;
+});
 
 const handleMouseEnter = (index) => {
   hoverIndex.value = index;
@@ -195,6 +250,9 @@ const handleAfterLeave = () => {
   background-color: transparent;
   color: white;
   padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
 }
 
 .side-bar .avatar {
@@ -209,7 +267,6 @@ const handleAfterLeave = () => {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 0 auto; /* 水平居中，可根据布局情况调整 */
 }
 
 /* 如果头像通过img标签引入，可添加以下样式来让图片填满圆形 */
@@ -224,7 +281,7 @@ const handleAfterLeave = () => {
   justify-content: flex-start;
   align-items: flex-start;
   background-color: rgba(128, 128, 128, 0.4);
-  margin: 1rem;
+  margin: 1rem 0;
   border-radius: 10px;
   flex-direction: column;
 }
@@ -365,9 +422,9 @@ const handleAfterLeave = () => {
   border-radius: 0.5rem;
 }
 
-.card-title:hover {
+/* .card-title:hover {
   background-color: rgba(128, 128, 128, 0.4);
-}
+} */
 
 .card-title img {
   width: 1.5rem;
@@ -389,7 +446,7 @@ const handleAfterLeave = () => {
   overflow: hidden;
 }
 
-.expand-collapse-enter-active{
+.expand-collapse-enter-active {
   transition: opacity 0.5s cubic-bezier(0, 0, 0.2, 1);
 }
 .expand-collapse-leave-active {
@@ -413,4 +470,112 @@ const handleAfterLeave = () => {
   margin: 20px 0;
 }
 
+.n-page-header {
+  flex-direction: column;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin: 0 auto;
+  border-radius: 1rem;
+  color: white;
+  width: 80%;
+}
+
+.n-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  width: 100%;
+}
+
+.n-page-header__title,
+.n-footer {
+  margin: 1rem;
+  color: white !important;
+}
+
+.n-gi {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  font-size: 1rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}
+
+.n-gi:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(130, 130, 130, 0.4),
+    rgba(128, 128, 128, 0.4)
+  );
+  box-shadow: 0 0 5px #add8e6;
+  cursor: pointer;
+}
+
+.n-statistic {
+  font-size: 2rem;
+}
+
+.n-title {
+  font-size: 1.5rem;
+  color: white;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 1rem;
+  cursor: pointer;
+}
+
+.n-title img {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 0.5rem;
+}
+
+.n-footer {
+  font-size: 0.8rem;
+  color: white;
+}
+
+.n-space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.2rem;
+  background-color: rgba(128, 128, 128, 0.4);
+  margin-left: 1rem;
+  font-size: 1rem;
+}
+
+.n-space:hover {
+  background: linear-gradient(
+    to bottom,
+    rgba(130, 130, 130, 0.4),
+    rgba(128, 128, 128, 0.4)
+  );
+  box-shadow: 0 0 5px #add8e6;
+  cursor: pointer;
+}
+
+.times {
+  font-size: 0.5rem;
+  margin-left: 0.5rem;
+  animation: anim 1s ease-in;
+}
+
+@keyframes anim
+
+  {
+
+     0%   { transform:translate(-0.5rem, 0.2rem); opacity:0; }
+
+    100%  { transform:translate(0, 0); opacity:1;}
+
+  }
+
+.n-divider {
+  color: white;
+  font-size: 0.7rem;
+}
 </style>

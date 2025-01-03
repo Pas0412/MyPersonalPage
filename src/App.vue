@@ -17,5 +17,6 @@ body {
   all: unset;
   width: 100vh;
   /* max-height: 100vw; */
+  font-family: "San Francisco";
 }
 </style>
