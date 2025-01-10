@@ -83,8 +83,7 @@
             <n-number-animation
               ref="numberAnimationInstRef"
               :from="0"
-              :to="125"
-              class="n-statistic-value"
+              :to="study"
             />
             <template #suffix> 篇 </template>
           </n-statistic>
@@ -94,8 +93,7 @@
             <n-number-animation
               ref="numberAnimationInstRef"
               :from="0"
-              :to="22"
-              class="n-statistic-value"
+              :to="collections"
             />
             <template #suffix> 个 </template>
           </n-statistic>
@@ -105,8 +103,7 @@
             <n-number-animation
               ref="numberAnimationInstRef"
               :from="0"
-              :to="35"
-              class="n-statistic-value"
+              :to="friends"
             />
             <template #suffix> 位 </template>
           </n-statistic>
@@ -116,8 +113,7 @@
             <n-number-animation
               ref="numberAnimationInstRef"
               :from="0"
-              :to="99"
-              class="n-statistic-value"
+              :to="circle"
             />
             <template #suffix> 篇 </template>
           </n-statistic>
@@ -169,7 +165,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, onMounted, computed, watch } from "vue";
 import CardList from "@/components/CardList.vue";
 import Footer from "@/components/Footer.vue";
 import { useRouter } from "vue-router";
@@ -177,6 +173,23 @@ import { NBackTop, NDivider, NStatistic, NNumberAnimation } from "naive-ui";
 const router = useRouter();
 const hoverIndex = ref(-1);
 const times = ref(0);
+import { useStore } from 'vuex';
+
+const store = useStore();
+let collections = computed(() => store.state.statistic.collection);
+let friends = computed(() => store.state.statistic.friend);
+let study = computed(() => store.state.statistic.study);
+let circle = computed(() => store.state.statistic.circle);
+
+onMounted(async() => {
+  await store.dispatch('statistic/fetchStatistics');
+});
+
+watch(collections, (newValue, oldValue) => {
+  // 这里可以添加一些逻辑，比如触发组件重新渲染相关的操作
+  // 例如如果组件有通过 ref 获取的实例，可以调用实例上的更新方法等（具体取决于组件的实现）
+  console.log('Collections value has changed:', newValue, oldValue);
+});
 
 const callForUpdate = () => {
   times.value++;
@@ -566,12 +579,12 @@ const handleAfterLeave = () => {
   cursor: pointer;
 }
 
-:deep(.n-statistic .n-statistic-value .n-statistic-value__content) {
+:deep(.n-statistic .n-statistic-value__content) {
   font-size: 2rem;
   color: white;
 }
 
-:deep(.n-statistic .n-statistic-value .n-statistic-value__suffix) {
+:deep(.n-statistic .n-statistic-value__suffix) {
   font-size: 1rem;
   color: white;
 }

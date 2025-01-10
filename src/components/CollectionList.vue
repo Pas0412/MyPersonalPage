@@ -25,6 +25,11 @@
           :key="article.id"
           :article="article"
         />
+        <n-empty description="这里啥也没有" v-if="filteredArticles.length === 0">
+          <template #extra>
+            <n-button size="small" @click="onViewOthers"> 看看别的分类 </n-button>
+          </template>
+        </n-empty>
       </div>
     </div>
     <n-pagination
@@ -37,30 +42,21 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Collection from "./Collection.vue";
-import { NPagination } from "naive-ui";
+import { NPagination, NEmpty, NButton } from "naive-ui";
+import { useStore } from "vuex";
 
-// 模拟从后端获取的文章数据
-const articles = ref([
-  {
-    id: 1,
-    title: "精彩的Vue 3文章一",
-    category: "技术分享",
-    tags: ["Vue", "前端开发"],
-    url: "article1-url",
-  },
-  {
-    id: 2,
-    title: "Vue 3的实用技巧",
-    category: "技术分享",
-    tags: ["Vue", "技巧"],
-    url: "article2-url",
-  },
-]);
+const store = useStore();
+let articles = computed(() => store.state.collection.collectionList);
+
+// 从后端获取的文章数据
+onMounted(async () => {
+  await store.dispatch("collection/fetchCollectionList");
+});
 
 // 模拟从后端获取的分类数据
-const categories = ref(["技术分享", "经验总结", "其他分类"]);
+const categories = ref(["全部", "教程", "工具", "Bug"]);
 
 // 当前搜索的文本内容
 const searchText = ref("");
@@ -69,7 +65,15 @@ const currentCategory = ref("");
 
 // 根据分类筛选文章列表的函数
 const filterByCategory = (category) => {
+  if (category === "全部") {
+    currentCategory.value = "";
+    return;
+  }
   currentCategory.value = category;
+};
+
+const onViewOthers = () => {
+  currentCategory.value = "";
 };
 
 // 计算属性，根据搜索文本和当前分类筛选出要展示的文章列表
@@ -85,6 +89,7 @@ const filteredArticles = computed(() => {
       article.title.includes(searchText.value)
     );
   }
+  console.log(result);
   return result;
 });
 </script>
@@ -108,7 +113,7 @@ const filteredArticles = computed(() => {
   padding: 8px 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
-  background-color: transparent
+  background-color: transparent;
 }
 
 .article-panel {

@@ -1,9 +1,10 @@
 import { getCount } from '@/api/statistic.js';
+import { ref } from 'vue';
 
 const state = {
   friend: 0, // 存储朋友数量，初始为 0
   circle: 0, // 存储朋友圈帖子数量，初始为 0
-  collection: 0, // 存储收藏夹数量，初始为 0
+  collection: ref(0), // 存储收藏夹数量，初始为 0
   article: 0, // 存储学习区文章数量，初始为 0
   isLoading: false, // 用于标识是否正在发起请求，如加载朋友列表等操作时的加载状态，初始为 false
   error: null // 存储请求过程中出现的错误信息，初始为 null
@@ -47,6 +48,7 @@ const actions = {
       commit('SET_ARTICLE', statistics.article);
       commit('SET_ERROR', null);
     } catch (error) {
+      console.log(error);
       commit('SET_ERROR', error.message);
     } finally {
       commit('SET_LOADING', false);

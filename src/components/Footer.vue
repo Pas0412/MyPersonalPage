@@ -23,7 +23,7 @@
       </div>
       <div class="legal-info">
         <p>&copy; 2024 Yonghui's Blog Website CopyRight &copy; Yonghui 版权所有</p>
-        <p>备案号：ICP备案申请中</p>
+        <p>备案号：闽ICP备2025083495号</p>
       </div>
     </div>
   </footer>
