@@ -4,7 +4,7 @@
     <div class="dashboard-panel">
       <div class="side-bar">
         <div class="avatar">
-          <img src="../assets/logo.png" alt="avatar" />
+          <img src="../assets/avatar.jpg" alt="avatar" />
         </div>
         <div class="user-info">
           <div>
@@ -55,7 +55,7 @@
             </div>
             <div class="button">
               <a
-                href="https://pas0412.github.io/MyPersonalPage/static/resume.pdf"
+                href="/static/resume.pdf"
                 download="简历-黄永辉.pdf"
               >
                 <img src="../assets/resume.png" alt="resume"
@@ -70,6 +70,15 @@
         </div>
       </div>
     </div>
+    <div class="show-panel">
+      <div class="n-title">
+        <n-icon :component="LivePhoto" />
+        <span>Life Moments</span>
+        <div class="n-space" @click="feelingGood">感觉不错</div>
+        <div class="good">+{{ good }}</div>
+      </div>
+      <Carousel />
+    </div>
     <div class="n-page-header">
       <div class="n-title">
         <img src="../assets/link.png" alt="link" />
@@ -78,12 +87,12 @@
         <div class="times">+{{ times }}</div>
       </div>
       <div class="n-grid">
-        <div class="n-gi" @click="toStudy">
-          <n-statistic label="学习区" tabular-nums>
+        <div class="n-gi" @click="toArticle">
+          <n-statistic label="笔记" tabular-nums>
             <n-number-animation
               ref="numberAnimationInstRef"
               :from="0"
-              :to="study"
+              :to="note"
             />
             <template #suffix> 篇 </template>
           </n-statistic>
@@ -169,16 +178,19 @@ import { ref, onMounted, computed, watch } from "vue";
 import CardList from "@/components/CardList.vue";
 import Footer from "@/components/Footer.vue";
 import { useRouter } from "vue-router";
-import { NBackTop, NDivider, NStatistic, NNumberAnimation } from "naive-ui";
+import { NBackTop, NDivider, NStatistic, NNumberAnimation, NIcon } from "naive-ui";
+import { LivePhoto } from "@vicons/tabler";
+import Carousel from "@/components/Carousel.vue";
 const router = useRouter();
 const hoverIndex = ref(-1);
 const times = ref(0);
+const good = ref(0);
 import { useStore } from 'vuex';
 
 const store = useStore();
 let collections = computed(() => store.state.statistic.collection);
 let friends = computed(() => store.state.statistic.friend);
-let study = computed(() => store.state.statistic.study);
+let note = computed(() => store.state.statistic.note);
 let circle = computed(() => store.state.statistic.circle);
 
 onMounted(async() => {
@@ -210,8 +222,27 @@ const callForUpdate = () => {
   anim.play();
 };
 
+const feelingGood = () => {
+  good.value++;
+  // 获取.times类名的元素，触发动画效果（重新添加动画名来触发动画）
+  const element = document.querySelector(".good");
+  const anim = element.animate(
+    [
+      { transform: "translate(-0.5rem, 0.1rem)", opacity: 0 },
+      { transform: "translate(0, 0)", opacity: 1 },
+    ],
+    {
+      duration: 500, // 动画时长，单位毫秒
+      easing: "ease-in",
+      fill: "forwards",
+    }
+  );
+  // 播放动画
+  anim.play();
+};
+
 const navOptions = ref([
-  { title: "学习区", name: "study" },
+  { title: "笔记", name: "notebook" },
   { title: "实用收藏", name: "collection" },
   { title: "朋友圈", name: "friendscircle" },
   { title: "关于我", name: "aboutme" },
@@ -227,8 +258,8 @@ onMounted(() => {
   today.value = formattedDate;
 });
 
-const toStudy = () => {
-  router.push({ name: "study" });
+const toArticle = () => {
+  router.push({ name: "note" });
 };
 
 const toCollection = () => {
@@ -239,7 +270,7 @@ const toBeFriend = () => {
   router.push({ name: "friend" });
 };
 
-const toCircle = () => {
+const toCircle = () => { 
   router.push({ name: "friendscircle" });
 };
 
@@ -303,6 +334,15 @@ const handleAfterLeave = () => {
   display: flex;
   position: relative;
   margin-top: 5rem;
+}
+
+.show-panel {
+  width: 80%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  margin: 0 auto 5rem auto;
 }
 
 .side-bar {
@@ -630,7 +670,7 @@ const handleAfterLeave = () => {
   cursor: pointer;
 }
 
-.times {
+.times, .good {
   font-size: 0.5rem;
   margin-left: 0.5rem;
   animation: anim 1s ease-in;

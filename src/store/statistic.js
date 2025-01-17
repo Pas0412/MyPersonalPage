@@ -5,7 +5,7 @@ const state = {
   friend: 0, // 存储朋友数量，初始为 0
   circle: 0, // 存储朋友圈帖子数量，初始为 0
   collection: ref(0), // 存储收藏夹数量，初始为 0
-  article: 0, // 存储学习区文章数量，初始为 0
+  note: 0, // 存储学习区笔记数量，初始为 0
   isLoading: false, // 用于标识是否正在发起请求，如加载朋友列表等操作时的加载状态，初始为 false
   error: null // 存储请求过程中出现的错误信息，初始为 null
 };
@@ -23,9 +23,9 @@ const mutations = {
   SET_COLLECTION(state, collection) {
     state.collection = collection;
   },
-  // 设置学习区文章数量的 mutation，用于更新article数量
-  SET_ARTICLE(state, article) {
-    state.article = article;
+  // 设置学习区文章数量的 mutation，用于更新note数量
+  SET_NOTE(state, note) {
+    state.note = note;
   },
   // 设置加载状态的 mutation，用于更新isLoading的值
   SET_LOADING(state, isLoading) {
@@ -45,7 +45,7 @@ const actions = {
       commit('SET_FRIEND', statistics.friend);
       commit('SET_COLLECTION', statistics.collection);
       commit('SET_CIRCLE', statistics.circle);
-      commit('SET_ARTICLE', statistics.article);
+      commit('SET_NOTE', statistics.note);
       commit('SET_ERROR', null);
     } catch (error) {
       console.log(error);

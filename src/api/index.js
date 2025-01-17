@@ -1,11 +1,14 @@
 import axios from 'axios';
 
 // 基础的后端接口 URL，根据实际情况调整
-const baseURL = 'http://localhost:8081';
+const baseURL = 'http://huangyonghui.cn:8081';
 
 // 创建 axios 实例，方便配置公共的请求头、拦截器等
 const instance = axios.create({
   baseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
 });
 
 // 请求拦截器，可添加例如添加请求头、显示加载状态等操作（这里简单示意）

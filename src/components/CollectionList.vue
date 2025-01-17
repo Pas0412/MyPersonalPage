@@ -18,45 +18,62 @@
         >
           {{ category }}
         </div>
+        <n-spin v-if="loading"></n-spin>
       </div>
       <div class="article-content">
-        <Collection
+        <ListItem
           v-for="article in filteredArticles"
           :key="article.id"
           :article="article"
         />
-        <n-empty description="这里啥也没有" v-if="filteredArticles.length === 0">
+        <n-spin v-if="loading"></n-spin>
+        <n-empty
+          description="这里啥也没有"
+          v-if="filteredArticles.length === 0 && !loading"
+        >
           <template #extra>
-            <n-button size="small" @click="onViewOthers"> 看看别的分类 </n-button>
+            <n-button size="small" @click="onViewOthers">
+              看看别的分类
+            </n-button>
           </template>
         </n-empty>
       </div>
     </div>
-    <n-pagination
+    <div class="pagination">
+      <n-pagination
       :display-order="['quick-jumper', 'pages', 'size-picker']"
-      :page-count="100"
+      v-model:page="currentPage"
+      :page-count="Math.ceil(articles.length / pageSize)"
       show-quick-jumper
       show-size-picker
     />
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from "vue";
-import Collection from "./Collection.vue";
-import { NPagination, NEmpty, NButton } from "naive-ui";
+import ListItem from "./ListItem.vue";
+import { NPagination, NEmpty, NButton, NSpin } from "naive-ui";
 import { useStore } from "vuex";
 
 const store = useStore();
 let articles = computed(() => store.state.collection.collectionList);
 
+let loading = ref(true);
+
+// 每页显示的数据量
+const pageSize = ref(10)
+
+// 当前页码
+const currentPage = ref(1)
 // 从后端获取的文章数据
 onMounted(async () => {
   await store.dispatch("collection/fetchCollectionList");
 });
 
 // 模拟从后端获取的分类数据
-const categories = ref(["全部", "教程", "工具", "Bug"]);
+const categories = ref(["全部"]);
 
 // 当前搜索的文本内容
 const searchText = ref("");
@@ -65,10 +82,6 @@ const currentCategory = ref("");
 
 // 根据分类筛选文章列表的函数
 const filterByCategory = (category) => {
-  if (category === "全部") {
-    currentCategory.value = "";
-    return;
-  }
   currentCategory.value = category;
 };
 
@@ -78,11 +91,15 @@ const onViewOthers = () => {
 
 // 计算属性，根据搜索文本和当前分类筛选出要展示的文章列表
 const filteredArticles = computed(() => {
-  let result = articles.value;
+  const start = (currentPage.value - 1) * pageSize.value
+  const end = start + pageSize.value
+  let result = articles.value.slice(start, end)
   if (currentCategory.value) {
-    result = result.filter(
-      (article) => article.category === currentCategory.value
-    );
+    if (currentCategory.value !== "全部") {
+      result = result.filter(
+        (article) => article.category === currentCategory.value
+      );
+    }
   }
   if (searchText.value) {
     result = result.filter((article) =>
@@ -90,6 +107,11 @@ const filteredArticles = computed(() => {
     );
   }
   console.log(result);
+  categories.value = [...new Set(articles.value.map(obj => obj.category))];
+  categories.value.unshift("全部");
+  if (result.length > 0){
+    loading.value = false;
+  }
   return result;
 });
 </script>
@@ -123,7 +145,7 @@ const filteredArticles = computed(() => {
 }
 
 .sidebar {
-  width: 150px;
+  min-width: 13rem;
   height: 100%;
   border-right: 1px solid #ccc;
   margin-top: 10px;
@@ -135,6 +157,7 @@ const filteredArticles = computed(() => {
 
 .sidebar-item {
   cursor: pointer;
+  min-height: 2rem;
   padding: 5px 10px;
   border-radius: 4px;
   color: white;
@@ -159,5 +182,10 @@ const filteredArticles = computed(() => {
   display: flex;
   flex-direction: column;
   gap: 10px;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
 }
 </style>

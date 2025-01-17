@@ -10,7 +10,7 @@
     <div class="button-bar">
       <img class="side-button left-button" @click="gotoHome" src="../assets/home.png" alt="home"/>
       <img class="center-button" @click="gotoDashBoard" src="../assets/enter.png" alt="enter"/>
-      <img class="side-button right-button" src="../assets/app.png" alt="app"/>
+      <img class="side-button right-button" @click="gotoDomain" src="../assets/app.png" alt="app"/>
     </div>
     <div class="footer-divider"></div>
   </div>
@@ -24,6 +24,10 @@ const gotoHome = () => {
 const gotoDashBoard = () => {
 //   router.push("/dashboard");
   router.push("/dashboard");
+};
+
+const gotoDomain = () => {
+  router.push("/domain");
 };
 </script>
 <style scoped>
