@@ -1,6 +1,9 @@
 <template>
   <header class="header">
     <div class="header-left">
+      <n-dropdown trigger="hover" :options="options" @select="handleSelect">
+        <img src="../assets/app.png" alt="homepage-app" />
+      </n-dropdown>
       <span>Yonghui's Blog</span>
     </div>
     <div class="header-right">
@@ -28,7 +31,9 @@
       <n-drawer v-model:show="active" :width="502">
         <n-drawer-content title="网站日志" closable>
           <n-timeline>
-            <n-timeline-item v-for="log in logs" :key="log.id"
+            <n-timeline-item
+              v-for="log in logs"
+              :key="log.id"
               type="success"
               :title="log.title"
               :content="log.detail"
@@ -43,7 +48,15 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import { NButton, NDrawer, NDrawerContent, NGradientText, NTimeline, NTimelineItem } from "naive-ui";
+import {
+  NButton,
+  NDrawer,
+  NDrawerContent,
+  NGradientText,
+  NTimeline,
+  NTimelineItem,
+  NDropdown,
+} from "naive-ui";
 import { getViews, getLogs } from "@/api/statistic";
 
 let dateCount = ref(new Date());
@@ -55,6 +68,25 @@ const handleClick = () => {
   // alert('按钮被点击啦！');
   active.value = true;
 };
+
+const options = [
+  {
+    label: "返回导航页",
+    key: "go back to navigate",
+  },
+  {
+    label: "返回主页",
+    key: "go back to homepage",
+  },
+  {
+    label: "前往实用区",
+    key: "go to utility zone",
+  },
+  {
+    label: "关于我",
+    key: "about me",
+  },
+];
 
 function getDaysSinceLaunch() {
   const launchDate = new Date("2022-07-04");
@@ -86,6 +118,22 @@ onMounted(async () => {
 
 .header-left {
   font-size: 24px;
+  display: flex;
+  align-items: center;
+}
+
+.header-left img {
+  height: 1.5rem;
+  padding: 0.5rem;
+  margin-right: 10px;
+  filter: invert(1);
+  cursor: pointer;
+  border-radius: 1rem;
+}
+
+.header-left img:hover {
+  filter: invert(0);
+  background-color: black;
 }
 
 .n-gradient-text {

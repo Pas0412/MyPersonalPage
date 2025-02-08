@@ -5,6 +5,7 @@
       <!-- 这里可以添加页面的主要内容 -->
       <div class="tool-bar">
         <n-card title="小工具" hoverable @click="toLunar"> 生辰八字计算工具 </n-card>
+        <n-card title="小工具" hoverable @click="toEat"> 决定今天吃什么工具 </n-card>
       </div>
       <router-view></router-view>
       <n-result
@@ -26,13 +27,17 @@
 <script setup>
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import { NCard, NResult, NButton } from "naive-ui";
+import { NCard, NResult, NButton, NBackTop } from "naive-ui";
 import { useRouter } from "vue-router";
 const router = useRouter();
 
 const toLunar = () => {
   router.push("/lunar");
 };
+
+const toEat = () => {
+  router.push("/eat"); 
+}
 
 const backToNavigate = () => {
   window.location.href = "/navigate";
@@ -67,6 +72,7 @@ const backToNavigate = () => {
   flex-wrap: wrap;
   justify-content: space-between;
   margin-bottom: 5rem;
+  flex-direction: row;
 }
 
 .footer {

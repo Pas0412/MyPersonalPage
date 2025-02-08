@@ -45,7 +45,12 @@ const router = createRouter({
           name: "lunar",
           component: () => import("../components/Lunar.vue"),
         },
-      ]
+        {
+          path: "/eat",
+          name: "eat",
+          component: () => import("../components/EatQA.vue"),
+        }
+      ],
     },
     {
       path: "/dashboard",
@@ -67,28 +72,37 @@ const router = createRouter({
           path: "/note",
           name: "note",
           component: () => import("../views/SidePage/Notes.vue"),
-        }
-      ]
+        },
+      ],
     },
     {
       path: "/chinamap",
       name: "chinamap",
       component: () => import("../views/ChinaMap.vue"),
     },
+    {
+      path: "/homepage",
+      name: "homepage",
+      component: () => import("../views/HomePage.vue"),
+    }
   ],
 });
 
 router.beforeEach((to, from, next) => {
   // 发送请求给后端记录访问次数
-  console.log(to.path.slice(1))
-  instance.post('/add-views', null, {
-    params: { name: to.path.slice(1) },
-  }).then(() => {
-    next();
-  }).catch(error => {
-    console.error('Failed to record visit:', error);
-    next();
-  });
+  console.log(to.path.slice(1));
+  next();
+  // instance
+  //   .post("/add-views", null, {
+  //     params: { name: to.path.slice(1) },
+  //   })
+  //   .then(() => {
+  //     next();
+  //   })
+  //   .catch((error) => {
+  //     console.error("Failed to record visit:", error);
+  //     next();
+  //   });
 });
 
 export default router;
