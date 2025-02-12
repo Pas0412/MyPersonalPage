@@ -100,8 +100,8 @@ onMounted(async () => {
   // 这里可以添加页面加载后的逻辑，例如显示一个消息
   // alert('页面加载完成啦！');
   dateCount.value = getDaysSinceLaunch();
-  views.value = await getViews();
-  logs.value = await getLogs();
+  // views.value = await getViews();
+  // logs.value = await getLogs();
 });
 </script>
 

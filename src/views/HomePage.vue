@@ -23,38 +23,72 @@
       </div>
     </div>
     <div class="homepage-avatar">
-      <img src="../assets/avatar.jpg" alt="Random Image" class="avatar-icon" />
+      <kinesis-container>
+        <kinesis-element :strength="20">
+          <img
+            src="../assets/avatar.jpg"
+            alt="Random Image"
+            class="avatar-icon"
+          />
+        </kinesis-element>
+      </kinesis-container>
       <h1>Pas0412</h1>
     </div>
-    <kinesis-container event="scroll">
-      <kinesis-element
-        tag="img"
-        :transformOrigin="sunOrigin"
-        :strength="100"
-        type="rotate"
-      />
-      <kinesis-element
-        :transformOrigin="earthmoonOrigin"
-        :strength="800"
-        type="rotate"
-      >
-        <img :src="earth" />
-        <kinesis-element
-          tag="img"
-          :src="moon"
-          :transformOrigin="moonOrigin"
-          :strength="1200"
-          type="rotate"
-        />
-      </kinesis-element>
-      <kinesis-element
-        tag="img"
-        :src="mars"
-        :transformOrigin="marsOrigin"
-        :strength="500"
-        type="rotate"
-      />
+    <kinesis-container>
+      <div class="k-container">
+        <kinesis-element :strength="20"
+          ><div class="bg-red"></div
+        ></kinesis-element>
+        <kinesis-element :strength="-25"
+          ><div class="bg-pink"></div
+        ></kinesis-element>
+        <kinesis-element :strength="15"
+          ><div class="bg-yellow"></div
+        ></kinesis-element>
+        <kinesis-element :strength="-20"
+          ><div class="bg-purple"></div
+        ></kinesis-element>
+        <kinesis-element :strength="-30"
+          ><div class="bg-green"></div
+        ></kinesis-element>
+        <kinesis-element :strength="20"
+          ><div class="bg-blue"></div
+        ></kinesis-element>
+
+        <div class="k-center">
+          <kinesis-element :strength="20" type="rotate"
+            ><h1>W</h1></kinesis-element
+          >
+
+          <kinesis-element :strength="10"><h1>e</h1></kinesis-element>
+
+          <kinesis-element :strength="-20" type="rotate"
+            ><h1>l</h1></kinesis-element
+          >
+
+          <kinesis-element :strength="10"><h1>c</h1></kinesis-element>
+
+          <kinesis-element :strength="-10"><h1>o</h1></kinesis-element>
+
+          <kinesis-element :strength="20" type="rotate"
+            ><h1>m</h1></kinesis-element
+          >
+
+          <kinesis-element :strength="-10"><h1>e</h1></kinesis-element>
+        </div>
+      </div>
     </kinesis-container>
+    <div class="homepage-text">
+      <div>
+        <h1 class="text-gradient" id="typing-text"></h1>
+      </div>
+    </div>
+    <img
+      src="../assets/avatar.jpg"
+      alt="test"
+      v-animate-onscroll="'animate__animated animate__fadeInUp'"
+      class="test"
+    />
     <Footer />
     <n-back-top :right="100" />
   </div>
@@ -66,7 +100,7 @@ import { ref, onMounted } from "vue";
 import { NBackTop } from "naive-ui";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
-import { KinesisContainer, KinesisElement} from 'vue-kinesis'
+import { KinesisContainer, KinesisElement } from "vue-kinesis";
 // 定义图标的大小
 const iconSize = ref(75);
 
@@ -137,6 +171,28 @@ const getImageSrc = (colIndex, rowIndex) => {
   const imageIndex = (colIndex * 8 + rowIndex) % imageFiles.length;
   return `/app/${imageFiles[imageIndex]}`;
 };
+
+let text = "欢迎来到我的个人网站"; // 要打印的文本
+let pointer = 0; // 当前打印到的字符位置
+
+const type = () => {
+  let span = document.getElementById("typing-text");
+  if (pointer < text.length) {
+    span.innerHTML += text.charAt(pointer);
+    pointer++;
+    setTimeout(type, 200); // 延迟100毫秒再次调用type函数
+  } else {
+    setTimeout(() => {
+      pointer = 0;
+      span.innerHTML = "";
+      type();
+    }, 5000);
+  }
+};
+
+onMounted(() => {
+  type();
+});
 </script>
 
 <style scoped>
@@ -147,6 +203,7 @@ const getImageSrc = (colIndex, rowIndex) => {
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 .matrix-container {
   display: flex;
@@ -197,6 +254,125 @@ const getImageSrc = (colIndex, rowIndex) => {
   align-items: center;
   width: 100vw;
   flex-direction: column;
+}
+
+.k-container {
+  margin: 10rem 0 15rem 0;
+  display: flex;
+  height: 10rem;
+  width: 100vw;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  flex-direction: row;
+}
+
+.bg-red {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  transform: translate(-50%, -100%);
+  background-color: pink;
+  opacity: 0.5;
+}
+
+.bg-pink {
+  height: 7rem;
+  width: 7rem;
+  border-radius: 50%;
+  transform: translate(50%, 100%);
+  background-color: burlywood;
+  opacity: 0.2;
+}
+
+.bg-pink::before {
+  content: "";
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 5.5rem;
+  width: 5.5rem;
+  position: absolute;
+  background-color: white;
+}
+
+.bg-yellow {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  transform: translate(-100%, -150%);
+  background-color: #ffcc00;
+  opacity: 0.2;
+}
+
+.bg-purple {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  transform: translate(25%, 0);
+  background-color: plum;
+  opacity: 0.2;
+}
+
+.bg-purple::before {
+  content: "";
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  height: 8rem;
+  width: 8rem;
+  position: absolute;
+  background-color: white;
+}
+
+.bg-blue {
+  height: 10rem;
+  width: 10rem;
+  border-radius: 50%;
+  transform: translate(50%, -100%);
+  background-color: #3399ff;
+  opacity: 0.2;
+}
+
+.bg-green {
+  height: 5rem;
+  width: 5rem;
+  border-radius: 50%;
+  transform: translate(-25%, 300%);
+  background-color: #33cc33;
+  opacity: 0.2;
+}
+
+.k-center {
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  position: absolute; /* 绝对定位 */
+  top: 50%; /* 相对于容器顶部50% */
+  left: 50%; /* 相对于容器左侧50% */
+  transform: translate(-50%, -50%); /* 居中 */
+}
+
+.text-gradient {
+  font-size: 30px;
+  margin-top: 100px;
+}
+
+.test {
+  /* animation: swing 3s ease-in-out; */
+  height: 5rem;
+  margin-bottom: 10rem;
+}
+
+@keyframes swing {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 .footer {
   width: 100%;

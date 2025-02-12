@@ -22,9 +22,9 @@
         </div>
       </div>
       <div class="legal-info">
-        <p>&copy; 2024 Yonghui's Blog Website CopyRight &copy; Yonghui 版权所有</p>
+        <p>&copy; 2025 Yonghui's Blog Website CopyRight &copy; Yonghui 版权所有</p>
         <p>备案号: 闽ICP备2025083495号</p>
-        <p>当前版本号: 2025011701</p>
+        <p>当前版本号: 2025021001</p>
       </div>
     </div>
   </footer>
