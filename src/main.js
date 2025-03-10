@@ -4,12 +4,10 @@ import './assets/fonts/fonts.css'
 import store from './store/index';
 import router from './router'
 import VueKinesis from "vue-kinesis";
-import VueAnimateOnScroll from 'vue-animate-onscroll';
-import 'animate.css';
+import { gsap } from "gsap";
 
 const app = createApp(App)
 app.use(VueKinesis)
-app.use(VueAnimateOnScroll)
 
 app.use(router)
 

@@ -12,6 +12,7 @@
     "axios": "^1.7.9",
     "core-js": "^3.8.3",
     "echarts": "^5.5.1",
+    "gsap": "^3.12.7",
     "vue": "^3.2.13",
     "vue-animate-onscroll": "^1.0.8",
     "vue-kinesis": "^2.0.5",

@@ -332,7 +332,6 @@ const handleAfterLeave = () => {
   width: 80%;
   margin: 0 auto;
   display: flex;
-  position: relative;
   margin-top: 5rem;
 }
 

@@ -78,18 +78,36 @@
         </div>
       </div>
     </kinesis-container>
-    <div class="homepage-text">
-      <div>
-        <h1 class="text-gradient" id="typing-text"></h1>
+
+    <!-- <div class="box"></div> -->
+    <div class="section">
+      <div class="section-wrapper">
+        <div class="section-content">
+          <div class="homepage-card" style="opacity: 0">
+            <div>
+              <h1 class="text-gradient" id="typing-text">Hi</h1>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    <img
-      src="../assets/avatar.jpg"
-      alt="test"
-      v-animate-onscroll="'animate__animated animate__fadeInUp'"
-      class="test"
-    />
+    <div class="section-card-view">
+      <div class="sticky-wrapper">
+        <div class="sticky-content">
+          <div class="section-wrapper">
+            <div class="section-card">
+              <div class="section-card-content">123</div>
+            </div>
+            <div class="section-card">
+              <div class="section-card-content">234</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="occupied"></div>
     <Footer />
+    <div class="scroll-down-indicator">向下滑动</div>
     <n-back-top :right="100" />
   </div>
 </template>
@@ -101,6 +119,8 @@ import { NBackTop } from "naive-ui";
 import Header from "@/components/Header.vue";
 import Footer from "@/components/Footer.vue";
 import { KinesisContainer, KinesisElement } from "vue-kinesis";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 // 定义图标的大小
 const iconSize = ref(75);
 
@@ -172,26 +192,103 @@ const getImageSrc = (colIndex, rowIndex) => {
   return `/app/${imageFiles[imageIndex]}`;
 };
 
-let text = "欢迎来到我的个人网站"; // 要打印的文本
-let pointer = 0; // 当前打印到的字符位置
-
-const type = () => {
-  let span = document.getElementById("typing-text");
-  if (pointer < text.length) {
-    span.innerHTML += text.charAt(pointer);
-    pointer++;
-    setTimeout(type, 200); // 延迟100毫秒再次调用type函数
-  } else {
-    setTimeout(() => {
-      pointer = 0;
-      span.innerHTML = "";
-      type();
-    }, 5000);
-  }
-};
-
 onMounted(() => {
-  type();
+  // 获取 scroll-down-indicator 元素
+  const scrollDownIndicator = document.querySelector(".scroll-down-indicator");
+
+  // 监听窗口滚动事件
+  window.addEventListener("scroll", function () {
+    // 计算距离页面底部的距离
+    const distanceToBottom =
+      document.documentElement.scrollHeight -
+      (window.scrollY + window.innerHeight);
+
+    // 当距离页面底部小于 200 像素时隐藏指示器
+    if (distanceToBottom < 200) {
+      scrollDownIndicator.style.display = "none";
+    } else {
+      scrollDownIndicator.style.display = "block";
+    }
+  });
+  gsap.registerPlugin(ScrollTrigger);
+  // gsap.to(".box", {
+  //   x: 400,
+  //   y: 50,
+  //   rotation: 180,
+  //   duration: 3,
+  //   repeat: 2,
+  //   scrollTrigger: { trigger: ".box", scrub: true },
+  // });
+  gsap.to(".homepage-card", {
+    opacity: 1,
+    duration: 1,
+    scrollTrigger: {
+      trigger: ".homepage-card",
+      start: "top center",
+      end: "bottom center",
+      scrub: true,
+    },
+  });
+  const sections = document.querySelectorAll(".section-card-view");
+  const cards = document.querySelectorAll(".section-card");
+
+  sections.forEach((section) => {
+    const wrapper = section.querySelector(".section-wrapper");
+    const stickyWrapper = section.querySelector(".sticky-wrapper");
+
+    const screenWidth = document.documentElement.clientWidth;
+    const cardWidth = cards[0].clientWidth;
+    const cardMargin = Number(
+      window
+        .getComputedStyle(cards[1])
+        .getPropertyValue("margin-left")
+        .slice(0, -2)
+    );
+    const cardsNumber = cards.length;
+
+    const swiperOffset =
+      // 距离页面左侧的宽度 * 2
+      wrapper.getBoundingClientRect().left * 2 +
+      // 每个卡片宽度 * 卡片数量
+      cardWidth * cardsNumber +
+      // 卡片的左侧距离 * (卡片数量 - 1)
+      cardMargin * (cardsNumber - 1) -
+      // 屏幕的宽度
+      screenWidth;
+
+    gsap.to(wrapper, {
+      duration: 5,
+      scrollTrigger: {
+        trigger: stickyWrapper,
+        start: "top 65",
+        end: "bottom 100%",
+        scrub: 0,
+      },
+      ease: "none",
+      x: -swiperOffset,
+    });
+
+    const cardScroll = cardWidth + cardMargin;
+    const stickyTop = 65;
+
+    cards.forEach(function (card, index) {
+      if (index > 0) {
+        const startTrigger = stickyTop - cardScroll * (index - 1);
+
+        gsap.to(card.querySelector(".section-card-content"), {
+          scrollTrigger: {
+            trigger: card,
+            start: "top " + startTrigger,
+            end: "+=" + cardScroll / 3,
+            scrub: 0,
+          },
+          ease: "none",
+          filter: "blur(0px)",
+          scale: 1,
+        });
+      }
+    });
+  });
 });
 </script>
 
@@ -203,7 +300,7 @@ onMounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
 }
 .matrix-container {
   display: flex;
@@ -355,26 +452,113 @@ onMounted(() => {
   transform: translate(-50%, -50%); /* 居中 */
 }
 
-.text-gradient {
-  font-size: 30px;
-  margin-top: 100px;
-}
-
-.test {
+.box {
   /* animation: swing 3s ease-in-out; */
   height: 5rem;
   margin-bottom: 10rem;
+  background-color: #3399ff;
+  width: 5rem;
 }
 
-@keyframes swing {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+.section {
+  width: 100vw;
+  display: flex;
 }
+
+.section-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.homepage-card {
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  width: 80vw;
+  height: 30rem;
+  box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 1rem;
+}
+
+.sticky-wrapper {
+  margin-top: 100px;
+  min-height: 100vh;
+}
+
+.sticky-content {
+  position: sticky;
+  width: 100%;
+  height: auto;
+  top: 200px;
+  overflow: hidden;
+}
+.section-wrapper {
+  position: relative;
+  display: flex;
+  width: 70.833333vw;
+  margin: 0 auto;
+}
+.section-card {
+  position: relative;
+  flex-shrink: 0;
+  width: 100%;
+  height: 20vh;
+  background-color: grey;
+}
+.section-card + .section-card {
+  margin-left: 3.125vw;
+}
+
+.section-card + .section-card .section-card-content {
+  transform: scale(0.8);
+  transform-origin: left;
+  filter: blur(10px);
+}
+
+.occupied {
+  width: 100vw;
+  height: 100vh;
+}
+
 .footer {
   width: 100%;
+}
+
+.scroll-down-indicator {
+  position: fixed;
+  bottom: 0.1rem;
+  left: 50%;
+  transform: translateX(-10%);
+  font-size: 1rem;
+  color: black;
+  background-color: transparent;
+  padding: 10px 20px;
+  border-radius: 5px;
+  /* 应用透明度动画 */
+  animation: fadeInOut 2s ease-in-out infinite;
+  /* 应用上下浮动动画 */
+  animation: float 2s ease-in-out infinite alternate;
+}
+/* 定义透明度动画 */
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.1;
+  }
+}
+/* 定义上下浮动动画 */
+@keyframes float {
+  0% {
+    transform: translateX(-50%) translateY(0);
+  }
+  100% {
+    transform: translateX(-50%) translateY(-20px);
+  }
 }
 </style>

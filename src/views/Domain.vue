@@ -4,11 +4,11 @@
     <div class="content-container">
       <!-- 这里可以添加页面的主要内容 -->
       <div class="tool-bar">
-        <n-card title="小工具" hoverable @click="toLunar"> 生辰八字计算工具 </n-card>
-        <n-card title="小工具" hoverable @click="toEat"> 决定今天吃什么工具 </n-card>
+        <!-- <n-card title="小工具" hoverable @click="toLunar"> 生辰八字计算工具 </n-card>
+        <n-card title="小工具" hoverable @click="toEat"> 决定今天吃什么工具 </n-card> -->
       </div>
       <router-view></router-view>
-      <n-result
+      <!-- <n-result
         status="404"
         title="此页面还在建设中，看点别的吧"
         description="生活总归带点荒谬"
@@ -17,7 +17,7 @@
         <template #footer>
           <n-button @click="backToNavigate">看点别的吧</n-button>
         </template>
-      </n-result>
+      </n-result> -->
     </div>
     <Footer />
     <n-back-top :right="100" />
@@ -36,8 +36,8 @@ const toLunar = () => {
 };
 
 const toEat = () => {
-  router.push("/eat"); 
-}
+  router.push("/eat");
+};
 
 const backToNavigate = () => {
   window.location.href = "/navigate";
